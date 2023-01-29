@@ -11,7 +11,15 @@ class DetailViewController: UIViewController {
     
     var presenter: DetailViewPresenterProtocol!
     
-    let label: UILabel = {
+    let commentLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "Test Label"
+        return label
+    }()
+    
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -32,24 +40,31 @@ class DetailViewController: UIViewController {
         
         setupView()
         presenter.setComment()
+        presenter.setName()
     }
     
     private func setupView() {
-        view.addSubview(label)
+        view.addSubview(commentLabel)
+        view.addSubview(nameLabel)
         view.addSubview(button)
         
         button.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
+        commentLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         button.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20),
+            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameLabel.bottomAnchor.constraint(equalTo: commentLabel.topAnchor, constant: -20),
+            nameLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20),
             
-            button.centerXAnchor.constraint(equalTo: label.centerXAnchor),
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30),
+            commentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            commentLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            commentLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20),
+            
+            button.centerXAnchor.constraint(equalTo: commentLabel.centerXAnchor),
+            button.topAnchor.constraint(equalTo: commentLabel.bottomAnchor, constant: 30),
             button.widthAnchor.constraint(equalToConstant: 100),
             button.heightAnchor.constraint(equalToConstant: 33)
         ]
@@ -64,8 +79,10 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: DetailViewProtocol {
     func setComment(comment: Comment?) {
-        label.text = comment?.email
+        commentLabel.text = comment?.body
     }
     
-    
+    func setName(name: Comment?) {
+        nameLabel.text = name?.email
+    }
 }

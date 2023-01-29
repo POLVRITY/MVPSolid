@@ -9,11 +9,13 @@ import Foundation
 
 protocol DetailViewProtocol: AnyObject {
     func setComment(comment: Comment?)
+    func setName(name: Comment?)
 }
 
 protocol DetailViewPresenterProtocol: AnyObject {
     init(view: DetailViewProtocol, networkService: NetworkServiceProtocol, comment: Comment?, router: RouterProtocol)
     func setComment()
+    func setName()
     func tap()
 }
 
@@ -35,6 +37,10 @@ class DetailPresenter: DetailViewPresenterProtocol {
     
     public func setComment() {
         self.view?.setComment(comment: comment)
+    }
+    
+    public func setName() {
+        self.view?.setName(name: comment)
     }
     
     func tap() {
